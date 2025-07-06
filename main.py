@@ -27,5 +27,39 @@ def add_consultant():
         json.dump(consultants,f,ensure_ascii=False,indent=2)
     print("مشاور با موفقیت افزوده شد!")
 
+
+def add_appointment():
+    """This function helps the user add appointment data to the appointments.json file."""
+    
+    # Import consultants list.
+    import json
+    with open("consultants.json", "r", encoding="utf-8") as f:
+        consultants = json.load(f)
+    
+    # Veiwe consultant data for select.
+    for c in consultants:
+        print(f"{c['id']}.{c['name']}({c['specialty']})")
+        
+    # Insert appointment data by user.
+    consultant_id= int(input("ID مشاور را وارد کنید:"))
+    date= input("تاریخ مشاوره(نمونه 2025-06-30):")
+    time= input("ساعت مشاوره(نمونه 14:00):")
+
+    # Create a new appointment.
+    new_appointment = {
+        "consultant_id": consultant_id,
+        "date": date,
+        "time": time
+    }
+        
+    # Saved new data in Json file.
+    with open("appointments.json", "r", encoding= "utf-8") as f:
+        appointments = json.load(f)
+    appointments.append(new_appointment)
+    with open("appointments.json", "w", encoding= "utf-8") as f:
+        json.dump(appointments,f,ensure_ascii=False,indent=2)
+    print("وقت مشاوره با موفقیت ثبت شد!")
+    
+    
 add_consultant()  
-  
+add_appointment()  
