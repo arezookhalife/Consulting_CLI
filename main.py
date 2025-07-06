@@ -36,15 +36,20 @@ def add_appointment():
     with open("consultants.json", "r", encoding="utf-8") as f:
         consultants = json.load(f)
     
-    # Veiwe consultant data for select.
+    # View consultant data for select.
+    consultant_id_list=[]
     for c in consultants:
         print(f"{c['id']}.{c['name']}({c['specialty']})")
-        
+        consultant_id_list.append(c['id'])
+
     # Insert appointment data by user.
     consultant_id= int(input("ID مشاور را وارد کنید:"))
+    while int(consultant_id) not in consultant_id_list:
+        print("کد وارد شده صحیح نمی باشد!")
+        consultant_id= int(input("ID مشاور را وارد کنید:"))
     date= input("تاریخ مشاوره(نمونه 2025-06-30):")
     time= input("ساعت مشاوره(نمونه 14:00):")
-
+        
     # Create a new appointment.
     new_appointment = {
         "consultant_id": consultant_id,
