@@ -1,5 +1,17 @@
 import json
 
+def show_menu():
+    """This function helps the user select a option from menu."""
+    
+    # Show menu.
+    print("\n ===== منوی اصلی ======")
+    print("1.افزودن مشاور")
+    print("2.افزودن وقت مشاوره")
+    print("3.نمایش مشاوران")
+    print("4.نمایش نوبت ها")
+    print("5.خروج")
+    
+    
 def add_consultant():
     """This function helps the user add new consultant data to the consultants.json file."""
     
@@ -76,7 +88,7 @@ def add_appointment():
         print("وقت مشاوره با موفقیت ثبت شد!")
     
 
-def consultants_list():
+def show_consultants():
     """This function shows consultants list to the users."""
        
     # Import consultants list.
@@ -96,7 +108,7 @@ def consultants_list():
             print(f"{c['id']} | {c['name']} |  تخصص: {c['specialty']}")
         
 
-def appointments_list():
+def show_appointments():
     """This function shows appointments list to the users."""
        
     # Import appointments list.
@@ -125,9 +137,22 @@ def appointments_list():
             name = consultant_map.get(a['consultant_id'],"مشاور ناشناس")
             print(f"{name} | {a['date']} | {a['time']}")
             
+# menu selection loop.
+while True:
+    show_menu()
+    choice= input("انتخاب شما:")       
+    
+    if choice == "1":
+        add_consultant()
+    elif choice == "2":
+        add_appointment() 
+    elif choice == "3":
+        show_consultants()
+    elif choice == "4":
+        show_appointments()
+    elif choice == "5":
+       print("خروج از برنامه...")
+       break
+    else:
+        print("گزینه نامعتبر،دوباره تلاش کنید.")
 
-         
-add_consultant()  
-add_appointment()  
-consultants_list()
-appointments_list()
