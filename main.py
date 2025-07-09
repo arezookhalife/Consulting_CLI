@@ -1,23 +1,25 @@
 import json
+from arabic_reshaper import reshape as re 
+from bidi.algorithm import get_display as gd
 
 def show_menu():
     """This function helps the user select a option from menu."""
     
     # Show menu.
-    print("\n ===== منوی اصلی ======")
-    print("1.افزودن مشاور")
-    print("2.افزودن وقت مشاوره")
-    print("3.نمایش مشاوران")
-    print("4.نمایش نوبت ها")
-    print("5.خروج")
+    print(gd(re("\n ===== منوی اصلی ======")))
+    print(gd(re("1.افزودن مشاور")))
+    print(gd(re("2.افزودن وقت مشاوره")))
+    print(gd(re("3.نمایش مشاوران")))
+    print(gd(re("4.نمایش نوبت ها")))
+    print(gd(re("5.خروج")))
     
     
 def add_consultant():
     """This function helps the user add new consultant data to the consultants.json file."""
     
     # Insert consultant data by user.
-    name= input("نام مشاور:")
-    specialty= input("تخصص مشاور:")
+    name= input(gd(re("نام مشاور:")))
+    specialty= input(gd(re("تخصص مشاور:")))
 
     # Import/create consultants list.
     try:
@@ -38,7 +40,7 @@ def add_consultant():
     # Saved new data in Json file.
     with open("consultants.json", "w", encoding= "utf-8") as f:
         json.dump(consultants,f,ensure_ascii=False,indent=2)
-    print("مشاور با موفقیت افزوده شد!")
+    print(gd(re("مشاور با موفقیت افزوده شد!")))
 
 
 def add_appointment():
@@ -53,20 +55,20 @@ def add_appointment():
         
     # Show consultant data for select.
     if consultants==[]:
-        print("هیچ مشاوری برای ثبت نوبت وجود ندارد!")
+        print(gd(re("هیچ مشاوری برای ثبت نوبت وجود ندارد!")))
     else:
         consultant_id_list=[]
         for c in consultants:
-            print(f"{c['id']}.{c['name']}({c['specialty']})")
+            print(gd(re(f"{c['id']}.{c['name']}({c['specialty']})")))
             consultant_id_list.append(c['id'])
 
         # Insert appointment data by user.
-        consultant_id= int(input("ID مشاور را وارد کنید:"))
+        consultant_id= int(input(gd(re("ID مشاور را وارد کنید:"))))
         while int(consultant_id) not in consultant_id_list:
-            print("کد وارد شده صحیح نمی باشد!")
-            consultant_id= int(input("ID مشاور را وارد کنید:"))
-        date= input("تاریخ مشاوره(نمونه 2025-06-30):")
-        time= input("ساعت مشاوره(نمونه 14:00):")
+            print(gd(re("کد وارد شده صحیح نمی باشد!")))
+            consultant_id= int(input(gd(re("ID مشاور را وارد کنید:"))))
+        date= input(gd(re("تاریخ مشاوره(نمونه 2025-06-30):")))
+        time= input(gd(re("ساعت مشاوره(نمونه 14:00):")))
         
         # Create a new appointment.
         new_appointment = {
@@ -85,7 +87,7 @@ def add_appointment():
         appointments.append(new_appointment)
         with open("appointments.json", "w", encoding= "utf-8") as f:
             json.dump(appointments,f,ensure_ascii=False,indent=2)
-        print("وقت مشاوره با موفقیت ثبت شد!")
+        print(gd(re("وقت مشاوره با موفقیت ثبت شد!")))
     
 
 def show_consultants():
@@ -100,12 +102,12 @@ def show_consultants():
          
     # Show consultant list.
     if consultants==[]:
-        print("هیچ مشاوری ثبت نشده است!")
+        print(gd(re("هیچ مشاوری ثبت نشده است!")))
     else:
         sorted_consultants= sorted(consultants,key=lambda x: x['name'])
-        print("\n لیست مشاوران:")
+        print(gd(re("\n لیست مشاوران:")))
         for c in sorted_consultants:
-            print(f"{c['id']} | {c['name']} |  تخصص: {c['specialty']}")
+            print(gd(re(f"{c['id']} | {c['name']} |  تخصص: {c['specialty']}")))
         
 
 def show_appointments():
@@ -129,18 +131,18 @@ def show_appointments():
      
     # Show appointments list.
     if consultants==[]:
-        print("هیچ نوبتی ثبت نشده است!")
+        print(gd(re("هیچ نوبتی ثبت نشده است!")))
     else:
         sorted_appointments= sorted(appointments,key=lambda x: (x['date'], x['time']))
-        print("\n لیست وقت مشاوره:")
+        print(gd(re("\n لیست وقت مشاوره:")))
         for a in sorted_appointments:
             name = consultant_map.get(a['consultant_id'],"مشاور ناشناس")
-            print(f"{name} | {a['date']} | {a['time']}")
+            print(gd(re(f"{name} | {a['date']} | {a['time']}")))
             
 # menu selection loop.
 while True:
     show_menu()
-    choice= input("انتخاب شما:")       
+    choice= input(gd(re("انتخاب شما:")))       
     
     if choice == "1":
         add_consultant()
@@ -151,8 +153,8 @@ while True:
     elif choice == "4":
         show_appointments()
     elif choice == "5":
-       print("خروج از برنامه...")
+       print(gd(re("خروج از برنامه...")))
        break
     else:
-        print("گزینه نامعتبر،دوباره تلاش کنید.")
+        print(gd(re("گزینه نامعتبر،دوباره تلاش کنید.")))
 
