@@ -1,7 +1,7 @@
 from arabic_reshaper import reshape as re 
 from bidi.algorithm import get_display as gd
 from modules.consultants import add_consultant, show_consultants
-from modules.appointments import add_appointment, show_appointments
+from modules.appointments import add_appointment, show_appointments, search_appointments_by_consultant, search_appointments_by_date
 
 
 def show_menu():
@@ -12,7 +12,9 @@ def show_menu():
     print(gd(re("2.افزودن وقت مشاوره")))
     print(gd(re("3.نمایش مشاوران")))
     print(gd(re("4.نمایش نوبت ها")))
-    print(gd(re("5.خروج")))
+    print(gd(re("5.جستجوی نوبت بر اساس نام مشاور")))
+    print(gd(re("6.جستجوی نوبت بر اساس تاریخ")))    
+    print(gd(re("7.خروج")))
    
             
 # menu selection loop.
@@ -29,6 +31,10 @@ while True:
     elif choice == "4":
         show_appointments()
     elif choice == "5":
+       search_appointments_by_consultant()
+    elif choice == "6":
+        search_appointments_by_date()
+    elif choice == "7": 
        print(gd(re("خروج از برنامه...")))
        break
     else:

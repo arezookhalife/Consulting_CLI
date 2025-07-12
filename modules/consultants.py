@@ -4,7 +4,16 @@ from bidi.algorithm import get_display as gd
 
 CONSULTANTS_FILE= "data/consultants.json"
 
-
+def load_consultants():
+    """This function import/create consultants list."""
+    
+    try:
+        with open(CONSULTANTS_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return []
+      
+        
 def add_consultant():
     """This function helps the user add new consultant data to the consultants.json file."""
     
@@ -13,12 +22,8 @@ def add_consultant():
     specialty= input(gd(re(":تخصص مشاور")))
 
     # Import/create consultants list.
-    try:
-        with open(CONSULTANTS_FILE, "r", encoding="utf-8") as f:
-            consultants = json.load(f)
-    except FileNotFoundError:
-        consultants = []
-
+    consultants = load_consultants()
+    
     # Create a new consultant with a unique ID.
     new_id= consultants[-1]["id"]+ 1 if consultants else 1
     new_consultant = {
@@ -38,11 +43,7 @@ def show_consultants():
     """This function shows consultants list to the users."""
        
     # Import consultants list.
-    try:
-        with open(CONSULTANTS_FILE,"r", encoding="utf-8")as f:
-            consultants = json.load(f)
-    except FileNotFoundError:
-        consultants = []
+    consultants = load_consultants()
          
     # Show consultant list.
     if consultants==[]:

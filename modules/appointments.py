@@ -2,26 +2,25 @@ import json
 from arabic_reshaper import reshape as re 
 from bidi.algorithm import get_display as gd
 from modules.utils import validate_datetime, is_duplicate_appointment
+from modules.consultants import load_consultants
 
 APPOINTMENTS_FILE= "data/appointments.json"
 CONSULTANTS_FILE= "data/consultants.json"
 
-
+def load_appointments():
+    try:
+        with open(APPOINTMENTS_FILE, "r", encoding= "utf-8") as g:
+            return json.load(g)
+    except FileNotFoundError:
+        return []  
+        
+        
 def add_appointment():
     """This function helps the user add appointment data to the appointments.json file."""
     
     # Import consultants and appointments list.
-    try:
-        with open(CONSULTANTS_FILE, "r", encoding="utf-8") as f:
-            consultants = json.load(f)
-    except FileNotFoundError:
-        consultants = []
-    
-    try:
-        with open(APPOINTMENTS_FILE, "r", encoding= "utf-8") as g:
-            appointments = json.load(g)
-    except FileNotFoundError:
-        appointments = []        
+    consultants = load_consultants()
+    appointments = load_appointments()
         
     # Show consultant data for select.
     if consultants==[]:
@@ -67,18 +66,10 @@ def show_appointments():
     """This function shows appointments list to the users."""
        
     # Import appointments list.
-    try:
-        with open(APPOINTMENTS_FILE,"r", encoding="utf-8")as f:
-            appointments= json.load(f)
-    except FileNotFoundError:
-        appointments = []
+    appointments= load_appointments()
         
     # import consultant name.
-    try:
-        with open(CONSULTANTS_FILE,"r", encoding="utf-8")as g:
-            consultants= json.load(g)
-    except FileNotFoundError:
-        consultants = []
+    consultants = load_consultants()
         
     consultant_map= {c['id']:c['name'] for c in consultants}
      
@@ -91,3 +82,49 @@ def show_appointments():
         for a in sorted_appointments:
             name = consultant_map.get(a['consultant_id'],"مشاور ناشناس")
             print(gd(re(f"{name} | {a['date']} | {a['time']}")))
+
+
+def search_appointments_by_consultant():
+    """This function searches appointments list by consultant name."""
+    
+    c_name = input(gd(re(":نام مشاور را وارد کنید")))
+    consultants = load_consultants()
+    appointments= load_appointments()
+
+    # Find matched IDs  .
+    matched_ids = [c["id"] for c in consultants if c_name.lower() in c["name"].lower()]
+    consultant_map= {c['id']:c['name'] for c in consultants}
+
+    if matched_ids == []:
+        print(gd(re("مشاوری با این نام یافت نشد.")))
+    else:
+        # Find matched appointments
+        results = [a for a in appointments if a["consultant_id"] in matched_ids]
+        if not results:
+            print(gd(re("هیچ نوبتی برای این مشاور ثبت نشده است.")))
+        else:
+            # Show Final list.
+            for a in results:
+                name = consultant_map.get(a['consultant_id'],"مشاور ناشناس")
+                print(gd(re(f"مشاور: {name} | تاریخ: {a['date']} | ساعت: {a['time']}")))  
+    
+    
+def search_appointments_by_date():
+    """This function searches appointments list by date."""
+    
+    date = input(gd(re(":تاریخ مد نظر (YYYY-MM-DD)"))).strip()
+    appointments = load_appointments()
+    consultants = load_consultants()
+    
+    # Find matched appointments
+    consultant_map= {c['id']:c['name'] for c in consultants}
+    results = [a for a in appointments if a["date"] == date]
+    
+    if not results:
+        print(gd(re("نوبتی در این تاریخ ثبت نشده است!")))
+      
+    # Show Final list.
+    for a in results:
+        name = consultant_map.get(a['consultant_id'],"مشاور ناشناس")
+        print(gd(re(f"مشاور: {name} | تاریخ: {a['date']} | ساعت: {a['time']}")))  
+    
