@@ -7,7 +7,10 @@ from modules.consultants import load_consultants
 APPOINTMENTS_FILE= "data/appointments.json"
 CONSULTANTS_FILE= "data/consultants.json"
 
+
 def load_appointments():
+    """This function import/create appointments list."""
+
     try:
         with open(APPOINTMENTS_FILE, "r", encoding= "utf-8") as g:
             return json.load(g)
