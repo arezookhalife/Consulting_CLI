@@ -52,7 +52,7 @@ while True:
         if choice == "1":
             add_consultant()
         elif choice == "2":
-            add_appointment() 
+            add_appointment(role) 
         elif choice == "3":
             show_consultants()
         elif choice == "4":

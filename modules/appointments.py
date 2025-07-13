@@ -18,7 +18,7 @@ def load_appointments():
         return []  
         
         
-def add_appointment():
+def add_appointment(role):
     """This function helps the user add appointment data to the appointments.json file."""
     
     # Import consultants and appointments list.
@@ -44,6 +44,7 @@ def add_appointment():
         while True:
             date= input(gd(re(":تاریخ مشاوره(نمونه YYYY-MM-DD)")))
             time= input(gd(re(":ساعت مشاوره(نمونه hh:mm)")))
+            role= role
             if not validate_datetime(date,time):
                 print(gd(re("فرمت تاریخ یا ساعت نادرست است. دوباره تلاش کنید!")))
             elif is_duplicate_appointment(appointments,consultant_id,date,time):
@@ -55,7 +56,8 @@ def add_appointment():
         new_appointment = {
             "consultant_id": consultant_id,
             "date": date,
-            "time": time
+            "time": time,
+            "created_by" : role
         }
         
         # Saved new data in Json file.
