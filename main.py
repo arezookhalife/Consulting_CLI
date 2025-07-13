@@ -7,7 +7,7 @@ from modules.appointments import add_appointment, show_appointments, search_appo
 def login():
     """This function returns the user's role to display the appropriate menu."""
     
-    print(gd(re("==ورود به سیستم==")))
+    print(gd(re("\n ==ورود به سیستم==")))
     username = input(gd(re(":نام کاربری"))).strip()
     password = input(gd(re(":رمز عبور"))).strip()
     
@@ -18,10 +18,8 @@ def login():
     else:
         print(gd(re("اطلاعات نادرست!")))
         return login()
-    
-role  = login()
 
-    
+
 def show_menu(role):
     """This function helps the user select a option from menu."""
     
@@ -42,42 +40,44 @@ def show_menu(role):
         print(gd(re("4.جستجوی نوبت بر اساس تاریخ")))    
         print(gd(re("5.خروج")))
 
-            
-# menu selection loop.
-while True:
-    show_menu(role)
-    choice= input(gd(re(":انتخاب شما")))       
+if __name__ == "__main__": 
+    role  = login()
     
-    if role == "admin":
-        if choice == "1":
-            add_consultant()
-        elif choice == "2":
-            add_appointment(role) 
-        elif choice == "3":
-            show_consultants()
-        elif choice == "4":
-            show_appointments()
-        elif choice == "5":
-            search_appointments_by_consultant()
-        elif choice == "6":
-            search_appointments_by_date()
-        elif choice == "7": 
-            print(gd(re("خروج از برنامه...")))
-            break
-        else:
-            print(gd(re("گزینه نامعتبر،دوباره تلاش کنید.")))
-    elif role == "user":
-        if choice == "1":
-            show_consultants()
-        elif choice == "2":
-            show_appointments()
-        elif choice == "3":
-            search_appointments_by_consultant()
-        elif choice == "64":
-            search_appointments_by_date()
-        elif choice == "5": 
-            print(gd(re("خروج از برنامه...")))
-            break
-        else:
-            print(gd(re("گزینه نامعتبر،دوباره تلاش کنید.")))
+    # menu selection loop.
+    while True:
+        show_menu(role)
+        choice= input(gd(re(":انتخاب شما")))       
+    
+        if role == "admin":
+            if choice == "1":
+                add_consultant()
+            elif choice == "2":
+                add_appointment(role) 
+            elif choice == "3":
+                show_consultants()
+            elif choice == "4":
+                show_appointments()
+            elif choice == "5":
+                search_appointments_by_consultant()
+            elif choice == "6":
+                search_appointments_by_date()
+            elif choice == "7": 
+                print(gd(re("خروج از برنامه...")))
+                break
+            else:
+                print(gd(re("گزینه نامعتبر،دوباره تلاش کنید.")))
+        elif role == "user":
+            if choice == "1":
+                show_consultants()
+            elif choice == "2":
+                show_appointments()
+            elif choice == "3":
+                search_appointments_by_consultant()
+            elif choice == "64":
+                search_appointments_by_date()
+            elif choice == "5": 
+                print(gd(re("خروج از برنامه...")))
+                break
+            else:
+                print(gd(re("گزینه نامعتبر،دوباره تلاش کنید.")))
 
