@@ -1,28 +1,20 @@
 import json
 from arabic_reshaper import reshape as re 
 from bidi.algorithm import get_display as gd
+from modules.utils import load_file,save_file
 
 CONSULTANTS_FILE= "data/consultants.json"
-
-def load_consultants():
-    """This function import/create consultants list."""
-    
-    try:
-        with open(CONSULTANTS_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return []
-      
+     
         
 def add_consultant():
     """This function helps the user add new consultant data to the consultants.json file."""
     
     # Insert consultant data by user.
-    name= input(gd(re(":نام مشاور")))
-    specialty= input(gd(re(":تخصص مشاور")))
+    name= input(gd(re(":نام مشاور"))).strip()
+    specialty= input(gd(re(":تخصص مشاور"))).strip()
 
     # Import/create consultants list.
-    consultants = load_consultants()
+    consultants = load_file(CONSULTANTS_FILE)
     
     # Create a new consultant with a unique ID.
     new_id= consultants[-1]["id"]+ 1 if consultants else 1
@@ -31,11 +23,9 @@ def add_consultant():
         "name": name,
         "specialty": specialty
     }
-    consultants.append(new_consultant)
     
-    # Saved new data in Json file.
-    with open(CONSULTANTS_FILE, "w", encoding= "utf-8") as f:
-        json.dump(consultants,f,ensure_ascii=False,indent=2)
+    # Save new data in Json file.
+    save_file(consultants,CONSULTANTS_FILE,new_consultant)
     print(gd(re("مشاور با موفقیت افزوده شد!")))
 
 
@@ -43,7 +33,7 @@ def show_consultants():
     """This function shows consultants list to the users."""
        
     # Import consultants list.
-    consultants = load_consultants()
+    consultants = load_file(CONSULTANTS_FILE)
          
     # Show consultant list.
     if consultants==[]:
