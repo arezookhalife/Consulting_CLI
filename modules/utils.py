@@ -1,19 +1,26 @@
 import json
 import os
-from datetime import datetime
+from datetime import datetime, date
 from arabic_reshaper import reshape as re 
 from bidi.algorithm import get_display as gd
 
 def validate_datetime(date_str,time_str):
-    """This function Check date & time format."""
+    """This function Check if date and time are in correct format and are in the future."""
     
     try:
-        datetime.strptime(date_str, "%Y-%m-%d")
-        datetime.strptime(time_str,"%H:%M")
-        return True
+        input_date = datetime.strptime(date_str, "%Y-%m-%d").date()
+        input_time = datetime.strptime(time_str,"%H:%M").time()
+        today = date.today()
+        now = datetime.now().time()
+        if input_date>=today and input_time>now:
+            return True
+        else:
+            print(gd(re("امکان ثبت نوبت در تاریخ یا ساعت وارد شده وجود ندارد!")))
+            return False
     except ValueError:
+        print(gd(re("فرمت تاریخ یا ساعت وارد شده صحیح نیست!")))
         return False
-
+    
 
 def is_duplicate_appointment(appointments,consultant_id,date,time):
     """This function checks for appointment duplication.""" 

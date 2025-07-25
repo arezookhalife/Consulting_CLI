@@ -79,7 +79,7 @@ if __name__ == "__main__":
                         show_appointments()
                     elif choice == "3":
                         search_appointments_by_consultant()
-                    elif choice == "64":
+                    elif choice == "4":
                         search_appointments_by_date()
                     elif choice == "5": 
                         cls()

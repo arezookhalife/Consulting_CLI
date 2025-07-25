@@ -15,35 +15,36 @@ def add_appointment(username):
     consultants = load_file(CONSULTANTS_FILE)
         
     # Show consultant data for selection.
-    consultant_id = show_consultants_list(consultants)
-              
+    consultant_id = show_consultants_list(consultants)            
     # Check date & time format    
     while True:
-        date= input(gd(re(":تاریخ مشاوره(نمونه YYYY-MM-DD)"))).strip()
-        time= input(gd(re(":ساعت مشاوره(نمونه hh:mm)"))).strip()
-        client=input(gd(re(":نام بیمار")))
-        if not validate_datetime(date,time):
-            print(gd(re("فرمت تاریخ یا ساعت نادرست است. دوباره تلاش کنید!")))
-        elif is_duplicate_appointment(appointments,consultant_id,date,time):
-            print(gd(re("این نوبت قبلا رزرو شده است. دوباره تلاش کنید!")))
+        if not consultant_id:
+            break
         else:
-            break    
-        
-    # Create a new appointment.
-    new_id= appointments[-1]["id"]+ 1 if appointments else 1
-    new_appointment = {
-        "id": new_id,
-        "consultant_id": consultant_id,
-        "date": date,
-        "time": time,
-        "client":client,
-        "created_by" : username
-    }
-    
-    # Saved new data in Json file.
-    save_file(appointments,APPOINTMENTS_FILE,new_appointment)
-    print(gd(re("وقت مشاوره با موفقیت ثبت شد!")))
-
+            date= input(gd(re(":تاریخ مشاوره(نمونه YYYY-MM-DD)"))).strip()
+            time= input(gd(re(":ساعت مشاوره(نمونه hh:mm)"))).strip()
+            client=input(gd(re(":نام بیمار")))
+            if not validate_datetime(date,time):
+                print(gd(re("دوباره تلاش کنید!")))
+            elif is_duplicate_appointment(appointments,consultant_id,date,time):
+                print(gd(re("این نوبت قبلا رزرو شده است. دوباره تلاش کنید!")))
+            else:
+                # Create a new appointment.
+                new_id= appointments[-1]["id"]+ 1 if appointments else 1
+                new_appointment = {
+                    "id": new_id,
+                    "consultant_id": consultant_id,
+                    "date": date,
+                    "time": time,
+                    "client":client,
+                    "created_by" : username
+                }
+                
+                # Saved new data in Json file.
+                save_file(appointments,APPOINTMENTS_FILE,new_appointment)
+                print(gd(re("وقت مشاوره با موفقیت ثبت شد!")))
+                break
+                
 
 def show_appointments():
     """This function shows appointments list to the users."""
