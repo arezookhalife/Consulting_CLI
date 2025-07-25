@@ -2,6 +2,7 @@ import json
 from arabic_reshaper import reshape as re 
 from bidi.algorithm import get_display as gd
 from modules.utils import cls, load_file
+import maskpass
 
 
 USERS_FILE= "data/users.json"
@@ -15,7 +16,7 @@ def signup():
     # Insert data by user.
     print(gd(re("\n ==ثبت نام==")))
     username = input(gd(re(":نام کاربری"))).strip()
-    password = input(gd(re(":رمز عبور"))).strip()
+    password = maskpass.advpass(prompt=gd(re(":رمز عبور")), mask = "*").strip()
 
     user_list = [c['username'] for c in users]
     pass_list = [c['password'] for c in users]
@@ -48,7 +49,7 @@ def login(count):
     
     print(gd(re("\n ==ورود به سیستم==")))
     username = input(gd(re(":نام کاربری"))).strip()
-    password = input(gd(re(":رمز عبور"))).strip()
+    password = maskpass.advpass(prompt=gd(re(":رمز عبور")), mask ="*").strip()
     users= load_file(USERS_FILE)
     
     user= [a for a in users if a['username'] == username and a['password'] == password]
